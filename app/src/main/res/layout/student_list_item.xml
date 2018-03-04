@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="0dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/student_matricule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        tools:text="12345" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:baselineAligned="true">
+
+        <TextView
+            android:id="@+id/student_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="18sp"
+            tools:text="Quentin Lurkin" />
+
+
+        <TextView
+            android:id="@+id/student_division"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ff0000"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            tools:text="1BA" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada" />
+</LinearLayout>

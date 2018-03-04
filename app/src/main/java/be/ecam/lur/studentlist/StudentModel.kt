@@ -1,9 +1,14 @@
 package be.ecam.lur.studentlist
 
-import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.AndroidViewModel
+import android.app.Application
 import okhttp3.*
 import java.io.IOException
-import android.arch.lifecycle.MutableLiveData
+import be.ecam.lur.studentlist.db.AppDatabase
+import org.json.JSONArray
+import be.ecam.lur.studentlist.db.Student
+
+
 
 
 
@@ -11,20 +16,22 @@ import android.arch.lifecycle.MutableLiveData
 /**
  * Created by qlurk on 06-02-18.
  */
-class StudentModel() : ViewModel() {
-    class Student(val name: String, val matricule: String)
+class StudentModel(app: Application) : AndroidViewModel(app) {
+    //data class Student(val name: String, val matricule: String, val division: String)
 
     private val client = OkHttpClient()
 
     // Create a LiveData with a String
-    private val students: MutableLiveData<String> = MutableLiveData()
+    //private val students: MutableLiveData<String> = MutableLiveData()
+    //val students = MutableLiveData<List<Student>>()
+    val students = AppDatabase.getDatabase(getApplication()).studentDao().findAllStudents()
 
-    fun getStudents(): MutableLiveData<String> {
+    /*fun getStudents(): MutableLiveData<String> {
         return students
-    }
+    }*/
 
     init {
-        students.value = "No Student"
+        //students.value = listOf()
         loadStudents()
     }
 
@@ -41,7 +48,21 @@ class StudentModel() : ViewModel() {
             override fun onResponse(call: Call, response: Response) {
                 response.body()?.use {
                     if (!response.isSuccessful) throw IOException("Unexpected code " + response)
-                    students.postValue(it.string())
+                    val stuList = mutableListOf<Student>()
+
+                    val jsonStudents = JSONArray(it.string())
+
+                    for (i in 0 until jsonStudents.length()) {
+                        val jsonStudent = jsonStudents.getJSONObject(i)
+                        val name = jsonStudent.getString("npetu")
+                        val matricule = jsonStudent.getString("matetu")
+                        val division = jsonStudent.getString("annetu")
+
+                        stuList.add(Student(matricule, name, division))
+                    }
+                    //students.postValue(stuList)
+                    //AppDatabase.getDatabase(getApplication()).studentDao().deleteAll()
+                    AppDatabase.getDatabase(getApplication()).studentDao().insertAll(stuList)
                 }
             }
         })
