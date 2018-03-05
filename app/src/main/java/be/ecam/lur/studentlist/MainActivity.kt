@@ -71,15 +71,11 @@ class MainActivity : AppCompatActivity() {
 
         val studentModel: StudentModel = ViewModelProviders.of(this).get(StudentModel::class.java)
 
-        //ViewModelProviders.of(this).
-
-        val studentsObserver = Observer<List<Student>> {
+        studentModel.students.observe(this, Observer<List<Student>> {
             it?.let{
                 itemAdapter.students = it
             }
-        }
-
-        studentModel.students.observe(this , studentsObserver)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -94,6 +90,4 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-
 }
