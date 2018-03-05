@@ -23,15 +23,11 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): AppDatabase {
             val i = INSTANCE
-            if(i != null) {
-                return i
-            }
+            if(i != null) return i
 
             return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, DB_NAME).build()
         }
 
-        fun destroyInstance() {
-            INSTANCE = null
-        }
+        fun destroyInstance() { INSTANCE = null }
     }
 }

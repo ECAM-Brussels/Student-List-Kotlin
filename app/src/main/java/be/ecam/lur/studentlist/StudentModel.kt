@@ -9,30 +9,22 @@ import org.json.JSONArray
 import be.ecam.lur.studentlist.db.Student
 
 
-
-
-
-
 /**
  * Created by qlurk on 06-02-18.
  */
 class StudentModel(app: Application) : AndroidViewModel(app) {
-    //data class Student(val name: String, val matricule: String, val division: String)
-
     private val client = OkHttpClient()
 
-    // Create a LiveData with a String
-    //private val students: MutableLiveData<String> = MutableLiveData()
-    //val students = MutableLiveData<List<Student>>()
-    val students = AppDatabase.getDatabase(getApplication()).studentDao().findAllStudents()
-
-    /*fun getStudents(): MutableLiveData<String> {
-        return students
-    }*/
+    private val database = AppDatabase.getDatabase(getApplication())
+    val students = database.studentDao().findAllStudents()
 
     init {
-        //students.value = listOf()
         loadStudents()
+    }
+
+    override fun onCleared() {
+        AppDatabase.destroyInstance()
+        super.onCleared()
     }
 
     @Throws(Exception::class)
@@ -60,9 +52,9 @@ class StudentModel(app: Application) : AndroidViewModel(app) {
 
                         stuList.add(Student(matricule, name, division))
                     }
-                    //students.postValue(stuList)
-                    //AppDatabase.getDatabase(getApplication()).studentDao().deleteAll()
-                    AppDatabase.getDatabase(getApplication()).studentDao().insertAll(stuList)
+
+                    //database.studentDao().deleteAll()
+                    database.studentDao().insertAll(stuList)
                 }
             }
         })
